@@ -22,13 +22,15 @@ if [[ "" == ${AZURE_SUBSCRIPTION_ID} ]]; then
   exit 1
 fi
 
+if [[ "" == ${TIMER} ]]; then
+  echo "No timer specified, default value = 60 sec"
+  TIMER=60
+fi
+
 az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID >> /dev/null
 
-az storage account list > result.json
-
-echo "Curl logstash"
-
-cat result.json
-
-curl -v -H "content-type: application/json" http://logstash:5000 -d @result.json
+dir="./metrics"
+for f in "$dir"/*; do
+  watch -n $TIMER $f &
+done
 
