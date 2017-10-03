@@ -4,6 +4,6 @@ WORKDIR /src
 
 COPY metrics /src/
 
-ADD run.sh /src
+ADD start.sh /src
 
 ENTRYPOINT [ "./start.sh" ]
