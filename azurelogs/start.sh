@@ -1,6 +1,6 @@
 #!/bin/bash
 
-THECMD=$0
+#THECMD=$0
 
 if [[ "" == ${AZURE_CLIENT_ID} ]]; then
   echo "You need to specify a AZURE_CLIENT_ID"
@@ -25,6 +25,10 @@ fi
 az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID >> /dev/null
 
 az storage account list > result.json
+
+echo "Curl logstash"
+
+cat result.json
 
 curl -v -H "content-type: application/json" http://logstash:5000 -d @result.json
 
