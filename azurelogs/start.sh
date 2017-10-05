@@ -28,9 +28,14 @@ if [[ "" == ${TIMER} ]]; then
 fi
 
 az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID >> /dev/null
+az account list-locations --query '[].name' -o tsv > ./resources/locations.txt
 
 dir="./metrics"
-for f in "$dir"/*; do
-  watch -n $TIMER $f &
+while true
+do
+  for f in "$dir"/*; do
+    sh $f &
+  done
+  sleep $TIMER
 done
 

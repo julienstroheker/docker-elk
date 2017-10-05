@@ -1,0 +1,4 @@
+- pipeline.id: default
+  path.config: "/usr/share/logstash/logstash.conf"
+- pipeline.id: azure
+  path.config: "/usr/share/logstash/computelimit.conf"

@@ -1,3 +1,3 @@
-az storage account list > result.json
-
-curl -v -H "content-type: application/json" http://logstash:5000 -d @result.json
+az storage account list > resultsa.json
+echo Sending SA results
+curl -s -H "content-type: application/json" http://logstash:5000 -d @resultsa.json

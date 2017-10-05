@@ -4,8 +4,6 @@ RUN apk update && apk add curl
 
 WORKDIR /src
 
-COPY metrics /src/metrics/
-
-ADD start.sh /src
+COPY . /src/
 
 ENTRYPOINT [ "./start.sh" ]
