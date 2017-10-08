@@ -85,22 +85,16 @@ generate_gauges_dashboard() {
     LOCATION=$2
     cp ./importDashboard/gauges/template.json ./importDashboard/$1.json
 
-    #ONEVALUEVISUPANEL='{\"size_x\":2,\"size_y\":3,\"panelIndex\":$PANELINDEX$,\"type\":\"visualization\",\"id\":\"$NAMEVISU$\",\"col\":$COL$,\"row\":$ROW$}'
-    #VALUEVISUPANELS='"[]"'
-    
-    #$NAMEVISU$
-    #$COL$
-    #$ROW$
-    #$PANELINDEX$
     COUNTER=1
     COUNTERCOL=1
     COUNTERROW=1
+    panel=''
     echo -n "" > ./importDashboard/panel.txt
     while read -r pres limit remainder; do
         if [[ ${COUNTER} > 1 ]]; then
-            echo -n "," >> ./importDashboard/panel.txt
+            panel=$panel','
         fi
-        echo -n '{\"size_x\":2,\"size_y\":3,\"panelIndex\":'$COUNTER',\"type\":\"visualization\",\"id\":\"'$PREFIX$pres-$LOCATION-g'\",\"col\":'$COUNTERCOL',\"row\":'$COUNTERROW'}' >> ./importDashboard/panel.txt
+        panel=$panel'{\"size_x\":2,\"size_y\":3,\"panelIndex\":'$COUNTER',\"type\":\"visualization\",\"id\":\"'$PREFIX$pres-$LOCATION-g'\",\"col\":'$COUNTERCOL',\"row\":'$COUNTERROW'}'
         COUNTER=$(($COUNTER+1))
         COUNTERCOL=$(($COUNTERCOL+2))
         if [[ ${COUNTERCOL} == 13 ]]; then
@@ -108,30 +102,24 @@ generate_gauges_dashboard() {
             COUNTERCOL=1
         fi
     done < ./resources/computeresources.txt
-    echo changing title
     sed -i .bk 's/\$DASHBOARDTITLE\$/'$VALUEDASHBOARDTITLE'/g' ./importDashboard/$1.json
-    cat ./importDashboard/panel.txt
-    while read -r t remainder; do
-        echo looping
-        echo $t
-        sed -i .bk 's/\$VISUPANELS\$/'$visupanelfromfile'/g' ./importDashboard/$1.json
-    done < ./importDashboard/panel2.txt
+    echo $panel
+    sed -i .bk 's/\$VISUPANELS\$/'$panel'/g' ./importDashboard/$1.json
 }
 
-#determine_es_server
-#VALUEESINDEX=$(curl -s http://$ESSERVER:9200/.kibana/config/5.6.1 | jq -r '._source.defaultIndex')
+determine_es_server
+VALUEESINDEX=$(curl -s http://$ESSERVER:9200/.kibana/config/5.6.1 | jq -r '._source.defaultIndex')
 
-#get_az_limits
+get_az_limits
 
-# while read -r pres limit remainder; do
-#   while read ploc; do
-#     echo "Generating $pres-$ploc-g"
-#     generate_gauge_visu "$PREFIX$pres-$ploc-g" "$pres" "$pres" "$ploc" 0 $((($limit*80)/100)) $((($limit*90)/100)) $limit
-#     #curl -s -XPUT http://$ESSERVER:9200/.kibana/visualization/$PREFIX$pres-$ploc-g --data @./resources/$PREFIX$pres-$ploc-g.json -H "content-type: application/json" > /dev/null
-#   done < ./resources/locations.txt
-#   echo "Generating $pres-t"
-#   generate_time_visu "$PREFIX$pres-t" "$pres" "$pres"
-#   #curl -s -XPUT http://$ESSERVER:9200/.kibana/visualization/$PREFIX$pres-t --data @./resources/$PREFIX$pres-t.json -H "content-type: application/json" > /dev/null
-#   #generate_dashboard "limitdash-$pres"
-# done < ./resources/computeresources.txt
+while read -r pres limit remainder; do
+  while read ploc; do
+    echo "Generating $pres-$ploc-g"
+    generate_gauge_visu "$PREFIX$pres-$ploc-g" "$pres" "$pres" "$ploc" 0 $((($limit*80)/100)) $((($limit*90)/100)) $limit
+    curl -s -XPUT http://$ESSERVER:9200/.kibana/visualization/$PREFIX$pres-$ploc-g --data @./resources/$PREFIX$pres-$ploc-g.json -H "content-type: application/json" > /dev/null
+  done < ./resources/locations.txt
+  echo "Generating $pres-t"
+  generate_time_visu "$PREFIX$pres-t" "$pres" "$pres"
+  curl -s -XPUT http://$ESSERVER:9200/.kibana/visualization/$PREFIX$pres-t --data @./resources/$PREFIX$pres-t.json -H "content-type: application/json" > /dev/null
+done < ./resources/computeresources.txt
 generate_gauges_dashboard "titleDB" "eastus"
