@@ -122,4 +122,4 @@ while read -r pres limit remainder; do
   generate_time_visu "$PREFIX$pres-t" "$pres" "$pres"
   curl -s -XPUT http://$ESSERVER:9200/.kibana/visualization/$PREFIX$pres-t --data @./resources/$PREFIX$pres-t.json -H "content-type: application/json" > /dev/null
 done < ./resources/computeresources.txt
-generate_gauges_dashboard "titleDB" "eastus"
+#generate_gauges_dashboard "titleDB" "eastus"
