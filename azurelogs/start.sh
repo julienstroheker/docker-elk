@@ -29,6 +29,15 @@ fi
 
 az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID >> /dev/null
 az account list-locations --query '[].name' -o tsv > ./resources/locations.txt
+az account set -s $AZURE_SUBSCRIPTION_ID
+
+if [[ "True" == ${GENERATE} ]]; then
+  if [[ "" == ${PREFIX} ]]; then
+    echo "You didn't specify any prefix for your visu, this could cause some problems if you are monitoring multiple subscriptions"
+  fi
+  sh generate.sh
+  exit 1
+fi
 
 dir="./metrics"
 while true

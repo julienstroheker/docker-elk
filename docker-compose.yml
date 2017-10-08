@@ -18,9 +18,11 @@ services:
     build: logstash/
     volumes:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
       - ./logstash/pipeline:/usr/share/logstash/pipeline
     ports:
       - "5000:5000"
+      - "5001:5001"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
@@ -46,6 +48,9 @@ services:
       AZURE_CLIENT_SECRET: ""
       AZURE_TENANT_ID: ""
       AZURE_SUBSCRIPTION_ID: ""
+      TIMER: 60
+      GENERATE: "False"
+      PREFIX: "Sub1"
     networks:
       - elk
     depends_on:

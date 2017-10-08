@@ -75,36 +75,63 @@ determine_es_server() {
     then
         ESSERVER="localhost"
     else
-        echo "Error"
+        echo "Cannot determine the ES server"
         exit 1
     fi
 }
 
-generate_dashboard() {
+generate_gauges_dashboard() {
     VALUEDASHBOARDTITLE=$1
-    cp ./importDashboard/template.json ./resources/$1.json
+    LOCATION=$2
+    cp ./importDashboard/gauges/template.json ./importDashboard/$1.json
 
-    ONEVALUEVISUPANEL='{\"col\":1,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":1,\"row\":1,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"}'
-    VALUEVISUPANELS='"[{\"col\":1,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":1,\"row\":1,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":7,\"id\":\"AV7pyIGGSo8UFX_v3Qap\",\"panelIndex\":2,\"row\":1,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":3,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":4,\"row\":1,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":1,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":5,\"row\":3,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":11,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":6,\"row\":1,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":5,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":7,\"row\":1,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":9,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":8,\"row\":1,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":3,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":9,\"row\":3,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":7,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":10,\"row\":3,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":5,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":11,\"row\":3,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":9,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":12,\"row\":3,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":1,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":13,\"row\":5,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":11,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":14,\"row\":3,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":3,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":15,\"row\":7,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":7,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":16,\"row\":5,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":5,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":17,\"row\":5,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":9,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":18,\"row\":5,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":11,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":19,\"row\":5,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":7,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":20,\"row\":7,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":1,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":21,\"row\":7,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":9,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":22,\"row\":7,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":1,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":23,\"row\":9,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":11,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":24,\"row\":7,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":3,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":25,\"row\":5,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":7,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":26,\"row\":9,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":3,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":27,\"row\":9,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":11,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":28,\"row\":9,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":5,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":29,\"row\":7,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":9,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":30,\"row\":9,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"col\":5,\"id\":\"AV7px_RXSo8UFX_v3QQA\",\"panelIndex\":31,\"row\":9,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"}]"'
+    #ONEVALUEVISUPANEL='{\"size_x\":2,\"size_y\":3,\"panelIndex\":$PANELINDEX$,\"type\":\"visualization\",\"id\":\"$NAMEVISU$\",\"col\":$COL$,\"row\":$ROW$}'
+    #VALUEVISUPANELS='"[]"'
     
-    sed -i .bk 's/\$DASHBOARDTITLE\$/'$VALUEDASHBOARDTITLE'/g' ./resources/$1.json
-    sed -i .bk 's/\$VISUPANELS\$/'$VALUEVISUPANELS'/g' ./resources/$1.json
+    #$NAMEVISU$
+    #$COL$
+    #$ROW$
+    #$PANELINDEX$
+    COUNTER=1
+    COUNTERCOL=1
+    COUNTERROW=1
+    echo -n "" > ./importDashboard/panel.txt
+    while read -r pres limit remainder; do
+        if [[ ${COUNTER} > 1 ]]; then
+            echo -n "," >> ./importDashboard/panel.txt
+        fi
+        echo -n '{\"size_x\":2,\"size_y\":3,\"panelIndex\":'$COUNTER',\"type\":\"visualization\",\"id\":\"'$PREFIX$pres-$LOCATION-g'\",\"col\":'$COUNTERCOL',\"row\":'$COUNTERROW'}' >> ./importDashboard/panel.txt
+        COUNTER=$(($COUNTER+1))
+        COUNTERCOL=$(($COUNTERCOL+2))
+        if [[ ${COUNTERCOL} == 13 ]]; then
+            COUNTERROW=$(($COUNTERROW+1))
+            COUNTERCOL=1
+        fi
+    done < ./resources/computeresources.txt
+    echo changing title
+    sed -i .bk 's/\$DASHBOARDTITLE\$/'$VALUEDASHBOARDTITLE'/g' ./importDashboard/$1.json
+    cat ./importDashboard/panel.txt
+    while read -r t remainder; do
+        echo looping
+        echo $t
+        sed -i .bk 's/\$VISUPANELS\$/'$visupanelfromfile'/g' ./importDashboard/$1.json
+    done < ./importDashboard/panel2.txt
 }
 
-determine_es_server
-VALUEESINDEX=$(curl -s http://$ESSERVER:9200/.kibana/config/5.6.1 | jq -r '._source.defaultIndex')
+#determine_es_server
+#VALUEESINDEX=$(curl -s http://$ESSERVER:9200/.kibana/config/5.6.1 | jq -r '._source.defaultIndex')
 
-get_az_limits
+#get_az_limits
 
-while read -r pres limit remainder; do
-  while read ploc; do
-    echo "Generating $pres-$ploc-g"
-    generate_gauge_visu "$pres-$ploc-g" "$pres" "$pres" "$ploc" 0 $((($limit*80)/100)) $((($limit*90)/100)) $limit
-    #curl -s -XPUT http://$ESSERVER:9200/.kibana/visualization/$pres-$ploc-g --data @./resources/$pres-$ploc-g.json -H "content-type: application/json" > /dev/null
-  done < ./resources/locations.txt
-  echo "Generating $pres-t"
-  generate_time_visu "$pres-t" "$pres" "$pres"
-  #curl -s -XPUT http://$ESSERVER:9200/.kibana/visualization/$pres-t --data @./resources/$pres-t.json -H "content-type: application/json" > /dev/null
-  #generate_dashboard "limitdash-$pres"
-done < ./resources/computeresources.txt
-
+# while read -r pres limit remainder; do
+#   while read ploc; do
+#     echo "Generating $pres-$ploc-g"
+#     generate_gauge_visu "$PREFIX$pres-$ploc-g" "$pres" "$pres" "$ploc" 0 $((($limit*80)/100)) $((($limit*90)/100)) $limit
+#     #curl -s -XPUT http://$ESSERVER:9200/.kibana/visualization/$PREFIX$pres-$ploc-g --data @./resources/$PREFIX$pres-$ploc-g.json -H "content-type: application/json" > /dev/null
+#   done < ./resources/locations.txt
+#   echo "Generating $pres-t"
+#   generate_time_visu "$PREFIX$pres-t" "$pres" "$pres"
+#   #curl -s -XPUT http://$ESSERVER:9200/.kibana/visualization/$PREFIX$pres-t --data @./resources/$PREFIX$pres-t.json -H "content-type: application/json" > /dev/null
+#   #generate_dashboard "limitdash-$pres"
+# done < ./resources/computeresources.txt
+generate_gauges_dashboard "titleDB" "eastus"
