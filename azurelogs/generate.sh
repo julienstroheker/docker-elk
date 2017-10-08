@@ -34,20 +34,20 @@ generate_gauge_visu () {
 
     cp ./importVisu/templategauge.json ./resources/$1.json
 
-    sed -i .bk 's/\$MIN0\$/'$VALUEMIN0'/g' ./resources/$1.json
-    sed -i .bk 's/\$MAX80\$/'$VALUEMAX80'/g' ./resources/$1.json
+    sed -i 's/\$MIN0\$/'$VALUEMIN0'/g' ./resources/$1.json
+    sed -i 's/\$MAX80\$/'$VALUEMAX80'/g' ./resources/$1.json
 
-    sed -i .bk 's/\$MIN80\$/'$VALUEMIN80'/g' ./resources/$1.json
-    sed -i .bk 's/\$MAX90\$/'$VALUEMAX90'/g' ./resources/$1.json
+    sed -i 's/\$MIN80\$/'$VALUEMIN80'/g' ./resources/$1.json
+    sed -i 's/\$MAX90\$/'$VALUEMAX90'/g' ./resources/$1.json
 
-    sed -i .bk 's/\$MIN90\$/'$VALUEMIN90'/g' ./resources/$1.json
-    sed -i .bk 's/\$MAX100\$/'$VALUEMAX100'/g' ./resources/$1.json
+    sed -i 's/\$MIN90\$/'$VALUEMIN90'/g' ./resources/$1.json
+    sed -i 's/\$MAX100\$/'$VALUEMAX100'/g' ./resources/$1.json
 
-    sed -i .bk 's/\$FILTERVALUE\$/'$VALUEFILTER'/g' ./resources/$1.json
-    sed -i .bk 's/\$FILTERLOCATION\$/'$VALUEFILTERLOCATION'/g' ./resources/$1.json
-    sed -i .bk 's/\$CUSTOMLABEL\$/'$VALUECUSTOMLABEL'/g' ./resources/$1.json
-    sed -i .bk 's/\$VISUTITLE\$/'$VALUEVISUTITLE'/g' ./resources/$1.json
-    sed -i .bk 's/\$ESINDEX\$/'$VALUEESINDEX'/g' ./resources/$1.json
+    sed -i 's/\$FILTERVALUE\$/'$VALUEFILTER'/g' ./resources/$1.json
+    sed -i 's/\$FILTERLOCATION\$/'$VALUEFILTERLOCATION'/g' ./resources/$1.json
+    sed -i 's/\$CUSTOMLABEL\$/'$VALUECUSTOMLABEL'/g' ./resources/$1.json
+    sed -i 's/\$VISUTITLE\$/'$VALUEVISUTITLE'/g' ./resources/$1.json
+    sed -i 's/\$ESINDEX\$/'$VALUEESINDEX'/g' ./resources/$1.json
 }
 
 generate_time_visu () {
@@ -61,10 +61,10 @@ generate_time_visu () {
     cp ./importVisu/templatetime.json ./resources/$1.json
 
 
-    sed -i .bk 's/\$FILTERVALUE\$/'$VALUEFILTER'/g' ./resources/$1.json
-    sed -i .bk 's/\$CUSTOMLABEL\$/'$VALUECUSTOMLABEL'/g' ./resources/$1.json
-    sed -i .bk 's/\$VISUTITLE\$/'$VALUEVISUTITLE'/g' ./resources/$1.json
-    sed -i .bk 's/\$ESINDEX\$/'$VALUEESINDEX'/g' ./resources/$1.json
+    sed -i 's/\$FILTERVALUE\$/'$VALUEFILTER'/g' ./resources/$1.json
+    sed -i 's/\$CUSTOMLABEL\$/'$VALUECUSTOMLABEL'/g' ./resources/$1.json
+    sed -i 's/\$VISUTITLE\$/'$VALUEVISUTITLE'/g' ./resources/$1.json
+    sed -i 's/\$ESINDEX\$/'$VALUEESINDEX'/g' ./resources/$1.json
 }
 
 determine_es_server() {
@@ -102,9 +102,9 @@ generate_gauges_dashboard() {
             COUNTERCOL=1
         fi
     done < ./resources/computeresources.txt
-    sed -i .bk 's/\$DASHBOARDTITLE\$/'$VALUEDASHBOARDTITLE'/g' ./importDashboard/$1.json
+    sed -i 's/\$DASHBOARDTITLE\$/'$VALUEDASHBOARDTITLE'/g' ./importDashboard/$1.json
     echo $panel
-    sed -i .bk 's/\$VISUPANELS\$/'$panel'/g' ./importDashboard/$1.json
+    sed -i 's/\$VISUPANELS\$/'$panel'/g' ./importDashboard/$1.json
 }
 
 determine_es_server
