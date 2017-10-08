@@ -1,6 +1,6 @@
 FROM azuresdk/azure-cli-python
 
-RUN apk update && apk add curl
+RUN apk update && apk add curl sed
 
 WORKDIR /src
 
