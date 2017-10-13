@@ -24,7 +24,7 @@ fi
 
 if [[ "" == ${TIMER} ]]; then
   echo "No timer specified, default value = 60 sec"
-  TIMER=60
+  TIMER=300
 fi
 
 az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID >> /dev/null
