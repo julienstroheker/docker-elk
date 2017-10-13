@@ -48,6 +48,8 @@ generate_gauge_visu () {
     sed -i 's/\$CUSTOMLABEL\$/'$VALUECUSTOMLABEL'/g' ./resources/$1.json
     sed -i 's/\$VISUTITLE\$/'$VALUEVISUTITLE'/g' ./resources/$1.json
     sed -i 's/\$ESINDEX\$/'$VALUEESINDEX'/g' ./resources/$1.json
+
+    sed -i 's/\$AZURESUBID\$/'$AZURE_SUBSCRIPTION_ID'/g' ./resources/$1.json
 }
 
 generate_time_visu () {
@@ -65,6 +67,8 @@ generate_time_visu () {
     sed -i 's/\$CUSTOMLABEL\$/'$VALUECUSTOMLABEL'/g' ./resources/$1.json
     sed -i 's/\$VISUTITLE\$/'$VALUEVISUTITLE'/g' ./resources/$1.json
     sed -i 's/\$ESINDEX\$/'$VALUEESINDEX'/g' ./resources/$1.json
+
+    sed -i 's/\$AZURESUBID\$/'$AZURE_SUBSCRIPTION_ID'/g' ./resources/$1.json
 }
 
 determine_es_server() {
@@ -114,7 +118,7 @@ get_az_limits
 
 while read -r pres limit remainder; do
   while read ploc; do
-    echo "Generating $pres-$ploc-g"
+    echo "Generating $PREFIX$pres-$ploc-g"
     generate_gauge_visu "$PREFIX$pres-$ploc-g" "$pres" "$pres" "$ploc" 0 $((($limit*80)/100)) $((($limit*90)/100)) $limit
     curl -s -XPUT http://$ESSERVER:9200/.kibana/visualization/$PREFIX$pres-$ploc-g --data @./resources/$PREFIX$pres-$ploc-g.json -H "content-type: application/json" > /dev/null
   done < ./resources/locations.txt
